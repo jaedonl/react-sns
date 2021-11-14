@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react';
 import "./Post.scss" 
 import { MoreVert, ThumbUp, Favorite } from "@material-ui/icons"
-const Post = () => {
+import { Users } from "../../data/dummyData"
+
+const Post = ({ post }) => {
+    const [like, setLike] = useState(post.like)
+    const [isLike, setIsLike] = useState(false)
+    const [comment, setComment] = useState(post.comment)
+    
+    const likeHandler = () => {
+        setIsLike(!isLike)
+        isLike ? setLike(like-1) : setLike(like+1)        
+    }
+    
     return (
         <div className="post">
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        <img className="postProfileImg" src="/assets/person/jaedon_profile.jpg" alt="" />
-                        <span className="postUsername">Jaedon Lee</span>
-                        <span className="postDate">5 mins ago</span>
+                        <img className="postProfileImg" src=
+                            { Users.filter((u) => u.id === post.userId)[0].profilePicture }
+                        />
+                        <span className="postUsername">
+                            { Users.filter((u) => u.id === post.userId)[0].username }
+                        </span>
+                        <span className="postDate">{post.date}</span>
                     </div>
                     <div className="postTopRight">
                         <MoreVert />
@@ -17,19 +32,19 @@ const Post = () => {
                 </div>
                 
                 <div className="postCenter">
-                    <span className="postText">인생이 쉽지가 않아~</span>
-                    <img className="postImg" src="/assets/post/babyjs.png" alt="" />
+                    { post.desc ? <span className="postText">{post.desc}</span> : null}                    
+                    { post.photo ? <img className="postImg" src={post.photo} alt="" /> : null }                    
                 </div>
                 
                 <div className="postBottom">
                     <div className="postBottomLeft">
-                        <ThumbUp className="likeIcon" htmlColor="gold" />
-                        <Favorite className="likeIcon" htmlColor="tomato" />
-                        <span className="postLikeCounter">32 people like it</span>
+                        <ThumbUp className="likeIcon" htmlColor="gold" onClick={likeHandler} />
+                        <Favorite className="likeIcon" htmlColor="tomato" onClick={likeHandler} />
+                        <span className="postLikeCounter">{isLike ? <span>you and</span> : null} {like} people like it</span>
                     </div>
 
                     <div className="postBottomRight">
-                        <span className="postCommentText">9 comments</span>            
+                        <span className="postCommentText">{comment} comments</span>            
                     </div>
                 </div>
             </div>

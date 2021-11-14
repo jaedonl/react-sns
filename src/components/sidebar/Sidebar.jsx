@@ -1,6 +1,8 @@
 import React from 'react'
 import "./Sidebar.scss" 
+import CloseFriend from '../closeFriend/CloseFriend';
 import { RssFeed, Chat, PlayCircleFilled, People, Bookmark, HelpOutline, WorkOutline, Event, School } from '@material-ui/icons';
+import { Users } from "../../data/dummyData"
 
 
 const Sidebar = () => {
@@ -53,17 +55,15 @@ const Sidebar = () => {
                     </li>
                 </ul>
                 
-                <button className="sidebarButton">Show More</button>
+                <button className="sidebarButton">Show More</button>\                
                 <hr className="sidebarHr" />
+
                 <ul className="sidebarFriendList">
-                    <li className="sidebarFriend">
-                        <img className="sidebarFriendImg" src="/assets/person/jaesoon_profile.jpg" alt="" />
-                        <span className="sidebarFriendName">Jaesoon Lee</span>
-                    </li>
-                    <li className="sidebarFriend">
-                        <img className="sidebarFriendImg" src="/assets/person/teemo_profile.jpg" alt="" />
-                        <span className="sidebarFriendName">Teemo Captain</span>
-                    </li>
+                    
+                    {Users.map((user, idx) => {
+                        return <CloseFriend user={user} key={idx} />
+                    })}
+
                 </ul>
             </div>
         </div>
